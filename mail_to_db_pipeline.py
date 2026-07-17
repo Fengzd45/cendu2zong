@@ -5,6 +5,8 @@ import email
 import sqlite3
 import pandas as pd
 import pdfplumber
+import json
+import datetime
 from email.header import decode_header
 from paddleocr import PaddleOCR
 
@@ -50,6 +52,41 @@ def safe_float(val):
         return float(cleaned)
     except ValueError:
         return 0.0
+
+# ==================== 新增：双轨同步数据引擎 ====================
+def sync_db_to_json():
+    """将 SQLite 数据库中的最新数据读取出来，并同步刷新到 quotes.json 中"""
+    json_file = 'quotes.json'
+    print("\n🔄 开始从数据库同步数据到前端 JSON 看板...")
+    
+    # 连接数据库并将结果映射为字典格式
+    conn = sqlite3.connect(DB_NAME)
+    conn.row_factory = sqlite3.Row 
+    cursor = conn.cursor()
+    
+    try:
+        # 从数据库中捞出最新的所有记录（后入库的排在前面）
+        cursor.execute("SELECT * FROM quote_items ORDER BY id DESC")
+        rows = cursor.fetchall()
+        
+        results = []
+        for row in rows:
+            item = dict(row)
+            # 确保转换的时间戳格式整齐
+            if 'imported_at' not in item or not item['imported_at']:
+                item['imported_at'] = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+            results.append(item)
+            
+        # 覆写生成标准的静态数据文件 quotes.json
+        with open(json_file, 'w', encoding='utf-8') as f:
+            json.dump(results, f, ensure_ascii=False, indent=2)
+            
+        print(f"✅ 同步成功！当前已有 [ {len(results)} ] 条记录刷新至 {json_file}")
+        
+    except sqlite3.OperationalError as e:
+        print(f"❌ 读取数据库转换为 JSON 失败: {e}")
+    finally:
+        conn.close()
 
 # ==================== 3. 自适应解析引擎 ====================
 def parse_excel(file_path):
@@ -299,6 +336,9 @@ def process_emails_and_save():
                                 cursor.executemany(sql, records)
                                 conn.commit()
                                 print(f"💾 成功将 {len(records)} 行数据存入统一数据库！")
+                                
+                                # 【关键修改：入库后立刻驱动 JSON 同步】
+                                sync_db_to_json()
                             
                             if os.path.exists(file_path):
                                 os.remove(file_path)
@@ -317,3 +357,8 @@ def process_emails_and_save():
 
 if __name__ == "__main__":
     process_emails_and_save()
+    # 【追加：安全兜底，整个流水线跑完后再全量校准一次 JSON】
+    try:
+        sync_db_to_json()
+    except Exception:
+        pass
