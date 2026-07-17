@@ -1,4 +1,4 @@
-name: Auto Scrape Web & Update Nursery DB
+Name: Auto Scrape Web & Update Nursery DB
 
 on:
   schedule:
@@ -32,10 +32,14 @@ jobs:
     - name: Run Web Scraper
       run: python web_scraper_pipeline.py
 
-    - name: Commit and Push Database Update
+    - name: Commit and Push Database & JSON Updates
       run: |
         git config --global user.name "GitHub Action Bot"
         git config --global user.email "action@github.com"
-        git add nursery_quotes.db || true
-        git diff-index --quiet HEAD || git commit -m "Auto-scrape web to database [skip ci]"
-        git push || echo "No new database changes to push."
+        
+        # 【关键修改：让 Git 同时跟踪 .db 数据库文件和网页爬虫同步生成的 .json 静态看板数据】
+        git add nursery_quotes.db quotes.json || true
+        
+        # 如果文件有变化，则自动提交并推送到仓库
+        git diff-index --quiet HEAD || git commit -m "Auto-scrape web and refresh dashboard JSON [skip ci]"
+        git push || echo "No changes to push."
