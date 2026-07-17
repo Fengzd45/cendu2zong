@@ -6,6 +6,11 @@ on:
     - cron: '0 2 * * *'
   workflow_dispatch: # 允许网页端手动一键点击触发
 
+# 🔐 添加防锁冲突控制：让同一组的数据库写入操作排队执行
+concurrency:
+  group: db-update-group
+  cancel-in-progress: false
+
 jobs:
   parse-and-db:
     runs-on: ubuntu-latest
@@ -20,7 +25,6 @@ jobs:
         python-version: '3.10'
 
     - name: Install System Dependencies for PaddleOCR
-      # PaddleOCR 图像处理需要这两个底层 Linux 系统包支持
       run: |
         sudo apt-get update
         sudo apt-get install -y libgl1-mesa-glx libgomp1
