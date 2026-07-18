@@ -1,1 +1,86 @@
-[]
+[
+  {
+    "id": 6,
+    "supplier": "Art's Nursery (Website)",
+    "quote_number": "WEB_SCRAPE",
+    "quote_date": "2026-07-17",
+    "category": "Grass",
+    "ordered": 0,
+    "botanical_name": "Miscanthus sinensis",
+    "size": "#1 Gallon",
+    "net_price": 18.95,
+    "extension": 0.0,
+    "file_source": "https://www.artsnursery.com/catalog",
+    "imported_at": "2026-07-17 06:10:43"
+  },
+  {
+    "id": 5,
+    "supplier": "Art's Nursery (Website)",
+    "quote_number": "WEB_SCRAPE",
+    "quote_date": "2026-07-17",
+    "category": "Shrub",
+    "ordered": 0,
+    "botanical_name": "Hydrangea macrophylla",
+    "size": "#2 Gallon",
+    "net_price": 34.5,
+    "extension": 0.0,
+    "file_source": "https://www.artsnursery.com/catalog",
+    "imported_at": "2026-07-17 06:10:43"
+  },
+  {
+    "id": 4,
+    "supplier": "Art's Nursery (Website)",
+    "quote_number": "WEB_SCRAPE",
+    "quote_date": "2026-07-17",
+    "category": "Tree",
+    "ordered": 0,
+    "botanical_name": "Acer palmatum 'Bloodgood' (Red Maple)",
+    "size": "#5 Gallon",
+    "net_price": 119.99,
+    "extension": 0.0,
+    "file_source": "https://www.artsnursery.com/catalog",
+    "imported_at": "2026-07-17 06:10:43"
+  },
+  {
+    "id": 3,
+    "supplier": "Art's Nursery (Website)",
+    "quote_number": "WEB_SCRAPE",
+    "quote_date": "2026-07-17",
+    "category": "Grass",
+    "ordered": 0,
+    "botanical_name": "Miscanthus sinensis",
+    "size": "#1 Gallon",
+    "net_price": 18.95,
+    "extension": 0.0,
+    "file_source": "https://www.artsnursery.com/catalog",
+    "imported_at": "2026-07-17 03:04:24"
+  },
+  {
+    "id": 2,
+    "supplier": "Art's Nursery (Website)",
+    "quote_number": "WEB_SCRAPE",
+    "quote_date": "2026-07-17",
+    "category": "Shrub",
+    "ordered": 0,
+    "botanical_name": "Hydrangea macrophylla",
+    "size": "#2 Gallon",
+    "net_price": 34.5,
+    "extension": 0.0,
+    "file_source": "https://www.artsnursery.com/catalog",
+    "imported_at": "2026-07-17 03:04:24"
+  },
+  {
+    "id": 1,
+    "supplier": "Art's Nursery (Website)",
+    "quote_number": "WEB_SCRAPE",
+    "quote_date": "2026-07-17",
+    "category": "Tree",
+    "ordered": 0,
+    "botanical_name": "Acer palmatum 'Bloodgood' (Red Maple)",
+    "size": "#5 Gallon",
+    "net_price": 119.99,
+    "extension": 0.0,
+    "file_source": "https://www.artsnursery.com/catalog",
+    "imported_at": "2026-07-17 03:04:24"
+  }
+]
