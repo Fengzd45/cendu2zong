@@ -1,4 +1,4 @@
-Name: Hourly Auto Parse & Update Nursery DB
+name: Auto Parse Email Quotes
 
 on:
   schedule:
@@ -31,13 +31,13 @@ jobs:
 
     - name: Install Python Dependencies
       run: |
-        pip install --upgrade pip
-        pip install paddlepaddle paddleocr pdfplumber pandas openpyxl
+        python -m pip install --upgrade pip
+        pip install paddlepaddle paddleocr pdfplumber pandas openpyxl requests beautifulsoup4
 
-    - name: Run Auto Mail Parser
+    - name: Run Auto Email Parser
       env:
         GMAIL_USER: ${{ secrets.GMAIL_USER }}
-        GMAIL_PASS: ${{ secrets.GMAIL_PASS }}
+        GMAIL_PASS: ${{ secrets.SENDER_APP_PASS }}
       run: python mail_to_db_pipeline.py
 
     - name: Commit and Push Database & JSON Updates
@@ -47,6 +47,5 @@ jobs:
         
         git add nursery_quotes.db quotes.json || true
         
-        # 同样去掉 [skip ci]，确保邮件解析完数据后也能自动刷新网页
         git diff-index --quiet HEAD || git commit -m "Auto-parse email and refresh dashboard JSON"
         git push origin HEAD:main
