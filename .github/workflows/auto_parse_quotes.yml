@@ -45,9 +45,8 @@ jobs:
         git config --global user.name "GitHub Action Bot"
         git config --global user.email "action@github.com"
         
-        # 【关键修改：让 Git 同时跟踪 .db 数据库文件和同步生成的 .json 静态看板数据】
         git add nursery_quotes.db quotes.json || true
         
-        # 如果文件有变化，则自动提交并推送到仓库
-        git diff-index --quiet HEAD || git commit -m "Auto-import quotes and refresh dashboard JSON [skip ci]"
-        git push || echo "No changes to push."
+        # 同样去掉 [skip ci]，确保邮件解析完数据后也能自动刷新网页
+        git diff-index --quiet HEAD || git commit -m "Auto-parse email and refresh dashboard JSON"
+        git push origin HEAD:main
